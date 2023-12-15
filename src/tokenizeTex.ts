@@ -1,7 +1,7 @@
-import Token, { TokenType, lexemeToType } from './Token';
+import Token, { TokenType, lexemeToType } from "./Token";
 
 function isWhitespace(c: string) {
-  return c.trim() === '';
+  return c.trim() === "";
 }
 
 function isAlpha(c: string) {
@@ -13,14 +13,14 @@ function isControl(c: string) {
 }
 
 function isDigit(c: string) {
-  return c >= '0' && c <= '9';
+  return c >= "0" && c <= "9";
 }
 
 // Returns the next word starting at pos in the string.
 // If the string begins with non-alphabetic characters at pos, returns an empty string.
 function scanWord(str: string, pos: number) {
   if (!isAlpha(str[pos])) {
-    return '';
+    return "";
   }
   let end = pos;
   // consume characters until a non-alphabetic character is encountered
@@ -34,14 +34,14 @@ function scanWord(str: string, pos: number) {
 // If the string begins with a non-digit at pos, returns an empty string.
 function scanNumber(str: string, pos: number) {
   if (!isDigit(str[pos])) {
-    return '';
+    return "";
   }
   let end = pos + 1;
   // consume characters until a non-digit is found
   while (isDigit(str[end])) {
     end += 1;
   }
-  if (str[end] === '.') {
+  if (str[end] === ".") {
     end += 1;
     // decimal number
     while (isDigit(str[end])) {
@@ -52,9 +52,9 @@ function scanNumber(str: string, pos: number) {
 }
 
 class LexError extends Error {
-  constructor(message = '', pos: number, ...args: any) {
+  constructor(message = "", pos: number, ...args: any) {
     super(...args);
-    this.name = 'LexError';
+    this.name = "LexError";
     this.message = `at ${pos}: ${message}`;
   }
 }
@@ -69,37 +69,43 @@ export default function tokenizeTex(texStr: string) {
     while (isWhitespace(texStr[i])) {
       i += 1;
     }
-    let lexeme = '';
+    let lexeme = "";
     let type = TokenType.Eof;
     const c = texStr[i];
     // don't accept control characters
     if (isControl(c)) {
-      throw new LexError('invalid control sequence encountered '
-                + '(forgot to escape backslashes (\\begin => \\\\begin)?', i);
+      throw new LexError(
+        "invalid control sequence encountered " +
+          "(forgot to escape backslashes (\\begin => \\\\begin)?",
+        i
+      );
     }
     // scan for single-char non-alphabetical lexemes
     if (!isAlpha(c) && c in lexemeToType) {
       type = lexemeToType[c];
       lexeme = c;
-    } else if (c === '\\') {
+    } else if (c === "\\") {
       // scan for multi-char lexemes starting with \
       const nextChar = texStr[i + 1];
-      if (nextChar === '\\') {
+      if (nextChar === "\\") {
         // double backslash
         type = TokenType.Dblbackslash;
-        lexeme = '\\\\';
-      } else if (nextChar === ' ') {
+        lexeme = "\\\\";
+      } else if (nextChar === " ") {
         // space character: ignore
         type = TokenType.Space;
-        lexeme = '\\ ';
+        lexeme = "\\ ";
       } else {
         // TeX command
         const command = scanWord(texStr, i + 1);
         if (command === undefined) {
           // an alpha char must immediately follow the backslash
           // or the command is malformed
-          throw new LexError('expected command '
-                        + '(a non-alphabetic character was encountered)', i);
+          throw new LexError(
+            "expected command " +
+              "(a non-alphabetic character was encountered)",
+            i
+          );
         } else {
           lexeme = `\\${command}`;
           type = lexemeToType[lexeme];
@@ -143,6 +149,6 @@ export default function tokenizeTex(texStr: string) {
     }
     i += lexeme.length;
   }
-  tokens.push(new Token('EOF', TokenType.Eof, i));
+  tokens.push(new Token("EOF", TokenType.Eof, i));
   return tokens;
 }

@@ -7,7 +7,7 @@
     "url": "git+https://github.com/davidtranhq/tex-math-parser.git"
   },
   "scripts": {
-    "start": "npx patch-package && tsc --watch",
+    "build": "npx patch-package && tsc",
     "postinstall": "patch-package",
     "lint": "npx eslint",
     "test": "npx jest"

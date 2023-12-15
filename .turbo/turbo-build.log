@@ -1,0 +1,32 @@
+$ bun x patch-package && tsc
+patch-package 6.5.1
+Applying patches...
+mathjs@9.4.4 ✔
+
+Warning: patch-package detected a patch file version mismatch
+
+  Don't worry! This is probably fine. The patch was still applied
+  successfully. Here's the deets:
+
+  Patch file created for
+
+    mathjs@9.4.4
+
+  applied to
+
+    mathjs@9.5.2
+  
+  At path
+  
+    node_modules/mathjs
+
+  This warning is just to give you a heads-up. There is a small chance of
+  breakage even though the patch was applied successfully. Make sure the package
+  still behaves like you expect (you wrote tests, right?) and then run
+
+    patch-package mathjs
+
+  to update the version in the patch file name and make this warning go away.
+
+---
+patch-package finished with 1 warning(s).
