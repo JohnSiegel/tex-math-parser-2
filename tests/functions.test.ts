@@ -10,10 +10,9 @@ test("evaluates sqrt", () => {
 });
 
 test("evaluates log", () => {
-  expect(evaluate("\\log(100)")).toStrictEqual(2);
-  expect(evaluate("\\log{100}")).toStrictEqual(2);
-  expect(evaluate("\\log_2{128}")).toStrictEqual(7);
-  expect(evaluate("\\log_{50}{2500}")).toStrictEqual(2);
+  expect(evaluate("\\log(100)")).toStrictEqual(4.605170185988092);
+  expect(evaluate("\\log(128, 2)")).toStrictEqual(7);
+  expect(evaluate("\\log(2500, 50)")).toStrictEqual(2);
 });
 
 test("evaluates sin", () => {
