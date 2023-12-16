@@ -132,7 +132,7 @@ export const typeToOperation: { [key in TokenType]?: string } = {
   [TokenType.Sinh]: "sinh",
   [TokenType.Cosh]: "cosh",
   [TokenType.Tanh]: "tanh",
-  [TokenType.Log]: "log",
+  [TokenType.Log]: "log10",
   [TokenType.Ln]: "log",
   [TokenType.Det]: "det",
   [TokenType.Eigenvectors]: "eigenvectors",
